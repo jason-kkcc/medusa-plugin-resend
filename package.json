@@ -1,14 +1,13 @@
 {
-   "name": "medusa-plugin-resend",
-   "version": "1.1.0",
+   "name": "medusa-plugin-resend-ts",
+   "version": "2.0.0",
    "description": "Resend email plugin to send transactional emails for Medusa using local Handlebars templates or local React templates",
    "main": "index.js",
    "repository": {
       "type": "git",
-      "url": "https://github.com/pevey/medusa-plugin-resend"
+      "url": "https://github.com/FaZeRs/medusa-plugin-resend"
    },
-   "homepage:": "https://pevey.com/medusa-plugin-resend",
-   "author": "Lacey Pevey",
+   "author": "Nauris Linde",
    "license": "MIT",
    "scripts": {
       "clean": "cross-env ./node_modules/.bin/rimraf dist",
