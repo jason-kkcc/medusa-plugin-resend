@@ -10,21 +10,23 @@
    "homepage:": "https://pevey.com/medusa-plugin-resend",
    "author": "Lacey Pevey",
    "license": "MIT",
-   "devDependencies": {
-      "cross-env": "^5.2.1",
-      "typeorm": "^0.3.16",
-      "typescript": "^4.9.5"
-   },
    "scripts": {
+      "clean": "cross-env ./node_modules/.bin/rimraf dist",
+      "build": "cross-env npm run clean && tsc -p tsconfig.json",
       "prepare": "cross-env NODE_ENV=production npm run build",
-      "test": "jest --passWithNoTests src",
-      "build": "tsc",
-      "watch": "tsc --watch"
+      "watch": "cross-env tsc --watch"
    },
    "dependencies": {
+      "class-validator": "^0.14.1",
       "handlebars": "^4.7.8",
-      "resend": "^1.0.0",
-      "zod": "^3.22.2"
+      "resend": "^3.2.0"
+   },
+   "devDependencies": {
+      "@medusajs/medusa": "latest",
+      "@medusajs/types": "latest",
+      "cross-env": "^5.2.1",
+      "rimraf": "^5.0.1",
+      "typescript": "^4.9.5"
    },
    "gitHead": "3bbd1e8507e00bc471de6ae3c30207999a4a4011",
    "keywords": [
