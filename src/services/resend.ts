@@ -79,7 +79,7 @@ class ResendService extends AbstractNotificationService {
     this.options_ = options;
     this.templatePath_ = this.options_.template_path.startsWith("/")
       ? path.resolve(this.options_.template_path) // The path given in options is absolute
-      : path.join(__dirname, "../../..", this.options_.template_path); // The path given in options is relative
+      : path.join(__dirname, "../../../..", this.options_.template_path); // The path given in options is relative
 
     this.fulfillmentProviderService_ = container.fulfillmentProviderService;
     this.storeService_ = container.storeService;
