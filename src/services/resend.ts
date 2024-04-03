@@ -5,13 +5,13 @@ import fs from "fs";
 import { humanizeAmount, zeroDecimalCurrencies } from "medusa-core-utils";
 import { MedusaError } from "@medusajs/utils";
 import {
+  AbstractNotificationService,
   CartService,
   ClaimService,
   FulfillmentProviderService,
   GiftCardService,
   LineItem,
   LineItemService,
-  NotificationService,
   Order,
   OrderService,
   ProductVariantService,
@@ -29,8 +29,8 @@ import {
 } from "../types";
 import { FulfillmentService } from "@medusajs/medusa/dist/services";
 
-class ResendService extends NotificationService {
-  static readonly identifier = "resend";
+class ResendService extends AbstractNotificationService {
+  static identifier = "resend";
   public options_: any;
   protected templatePath_: string;
   protected fulfillmentProviderService_: FulfillmentProviderService;
@@ -100,7 +100,11 @@ class ResendService extends NotificationService {
     event: string,
     eventData: EventData,
     attachmentGenerator?: any
-  ) {
+  ): Promise<{
+    to: string;
+    status: string;
+    data: Record<string, unknown>;
+  }> {
     let templateId = this.getTemplateId(event);
     if (!templateId) {
       throw new MedusaError(
@@ -189,10 +193,20 @@ class ResendService extends NotificationService {
     // We don't want heavy docs stored in DB
     delete sendOptions.attachments;
 
-    return { to: data.email, status, data: sendOptions };
+    const recordOptions: Record<string, unknown> =
+      sendOptions as unknown as Record<string, unknown>;
+    return { to: data.email, status, data: recordOptions };
   }
 
-  async resendNotification(notification, config, attachmentGenerator) {
+  async resendNotification(
+    notification,
+    config,
+    attachmentGenerator
+  ): Promise<{
+    to: string;
+    status: string;
+    data: Record<string, unknown>;
+  }> {
     const sendOptions = {
       ...notification.data,
       to: config.to || notification.to,
