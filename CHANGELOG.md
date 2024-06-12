@@ -1,5 +1,13 @@
 # Change 
 
+## 1.2.0
+Resend email plugin to send transactional emails for Medusa.
+Forked from the original version by Lacey Pevey.
+Modified the extension mechanism for new events, 
+1. Supporting dynamic addition of new events in the options definition within medusa-config.js, 
+2. Dynamically added the origin=true attribute in the eventData of sendNotification. If this attribute is added, eventData will be treated as the original data directly.
+
+
 ## 1.1.0
 
 - Update Resend SDK package dependency to v1.0
