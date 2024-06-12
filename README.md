@@ -4,7 +4,18 @@ Resend email plugin to send transactional emails for Medusa.
 Forked from the original version by Lacey Pevey.
 Modified the extension mechanism for new events, 
 1. Supporting dynamic addition of new events in the options definition within medusa-config.js, 
-2. Dynamically added the origin=true attribute in the eventData of sendNotification. If this attribute is added, eventData will be treated as the original data directly.
+   If your event is 'customer.created', the '.' will be replaced with '_', 
+     and the template definition will be 'customer_created_template'
+2. Dynamically added the origin=true attribute in the eventData of sendNotification. If this attribute is added,    
+    eventData will be treated as the original data directly.
+      const customer = await customerService.retrieve(customer_id);
+      const resendService = container.resolve("resendService");
+      console.log(`subscriber created customer ${data}`)
+      return await resendService.sendNotification(
+         "customer.created",
+         {...data,email:customer.email,origin:true},
+         null
+      );
 
 Resend email plugin to send transactional emails for Medusa using local Handlebars templates or local React templates
 
@@ -37,7 +48,7 @@ Enable in your medusa-config.js file similar to other plugins:
 
 ```bash
 {
-resolve: `medusa-plugin-resend`,
+resolve: `medusa-plugin-resend-custom`,
    options: {
       api_key: process.env.RESEND_API_ID,
       from: process.env.SES_FROM,
@@ -49,6 +60,8 @@ resolve: `medusa-plugin-resend`,
       order_shipped_template: 'order_shipped',
       customer_password_reset_template: 'customer_password_reset',
       gift_card_created_template: 'gift_card_created',
+      //If your event is 'customer.created', the '.' will be replaced with '_', 
+      //and the template definition will be 'customer_created_template'.
       //order_canceled_template: 'order_canceled',
       //order_refund_created_template: 'order_refund_created',
       //order_return_requested_template: 'order_return_requested',
