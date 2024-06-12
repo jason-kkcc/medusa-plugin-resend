@@ -1,13 +1,13 @@
 {
-   "name": "medusa-plugin-resend-ts",
-   "version": "2.0.2",
-   "description": "Resend email plugin to send transactional emails for Medusa using local Handlebars templates or local React templates",
+   "name": "medusa-plugin-resend-custom",
+   "version": "0.9.0",
+   "description": "Resend email plugin to send transactional emails for Medusa.Forked from the original version by Lacey Pevey.Modified the extension mechanism for new events, 1. Supporting dynamic addition of new events in the options definition within medusa-config.js, 2. Dynamically added the origin=true attribute in the eventData of sendNotification. If this attribute is added, eventData will be treated as the original data directly.",
    "main": "index.js",
    "repository": {
       "type": "git",
-      "url": "https://github.com/FaZeRs/medusa-plugin-resend"
+      "url": "https://github.com/jason-kkcc/medusa-plugin-resend.git"
    },
-   "author": "Nauris Linde",
+   "author": "Jason KKCC",
    "license": "MIT",
    "scripts": {
       "clean": "cross-env ./node_modules/.bin/rimraf dist",

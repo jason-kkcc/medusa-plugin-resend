@@ -113,7 +113,13 @@ class ResendService extends AbstractNotificationService {
       );
     }
 
-    const data = await this.fetchData(event, eventData, attachmentGenerator);
+    let data;
+    if ((eventData as any)?.origin === true) {
+      data = eventData;
+    } else {
+      data = await this.fetchData(event, eventData, attachmentGenerator);
+    }
+
     if (!data) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
@@ -412,41 +418,15 @@ class ResendService extends AbstractNotificationService {
     return null;
   }
 
-  getTemplateId(event: string, subject?: boolean) {
-    switch (event) {
-      case "order.return_requested":
-        return this.options_.order_return_requested_template;
-      case "swap.shipment_created":
-        return this.options_.swap_shipment_created_template;
-      case "claim.shipment_created":
-        return this.options_.claim_shipment_created_template;
-      case "order.items_returned":
-        return this.options_.order_items_returned_template;
-      case "swap.received":
-        return this.options_.swap_received_template;
-      case "swap.created":
-        return this.options_.swap_created_template;
-      case "gift_card.created":
-        return this.options_.gift_card_created_template;
-      case "order.gift_card_created":
-        return this.options_.gift_card_created_template;
-      case "order.placed":
-        return this.options_.order_placed_template;
-      case "order.shipment_created":
-        return this.options_.order_shipped_template;
-      case "order.canceled":
-        return this.options_.order_canceled_template;
-      case "user.password_reset":
-        return this.options_.user_password_reset_template;
-      case "customer.password_reset":
-        return this.options_.customer_password_reset_template;
-      case "restock-notification.restocked":
-        return this.options_.medusa_restock_template;
-      case "order.refund_created":
-        return this.options_.order_refund_created_template;
-      default:
-        return null;
+  getTemplateId(event: string, subject = false) {
+    const eventName = event.replace(/\./g, '_');
+    const templateKey = `${eventName}_template`;
+  
+    if (this.options_[templateKey]) {
+      return this.options_[templateKey];
     }
+  
+    return null;
   }
 
   async fetchAttachments(

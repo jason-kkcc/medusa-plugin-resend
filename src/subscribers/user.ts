@@ -12,6 +12,7 @@ export default async function userHandler({
     return;
   }
 
+  
   return await resendService.sendNotification(
     "user.password_reset",
     data,
